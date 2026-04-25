@@ -1,0 +1,16 @@
+conda create -n snp_env bwa samtools bcftools -y
+conda activate snp_env
+
+## Prepare reference genome (WT) to create index files for mapping
+bwa index WTc.fa
+## This generates files like .sa .bwt .amb .ann .pac
+
+## Map adapted strain reads to WT
+bwa mem WTc.fa adapted_R1.fastq.gz adapted_R2.fastq.gz > adapted.sam
+
+## Wait a little bit...
+
+## .sam file created
+
+##Convert SAM to BAM
+samtools view -Sb adapted.sam > adapted.bam
