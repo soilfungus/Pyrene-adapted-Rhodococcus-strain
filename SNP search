@@ -18,4 +18,15 @@ samtools view -Sb adapted.sam > adapted.bam
 ## Now let's sort BAM
 samtools sort adapted.bam -o adapted.sorted.bam
 
+## Let's index BAM
+samtools index adapted.sorted.bam
+## To create adapted.sorted.bam.bai
 
+## Let's call SNPs
+bcftools mpileup -f WTc.fa adapted.sorted.bam | bcftools call -mv -Ov -o adapted.vcf
+
+## See
+less adapted.vcf
+
+## Count them
+grep -v "^#" adapted.vcf | wc -l
