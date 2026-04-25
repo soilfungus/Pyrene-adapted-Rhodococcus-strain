@@ -1,0 +1,1 @@
+# Pyrene-adapted-Rhodococcus-strain
