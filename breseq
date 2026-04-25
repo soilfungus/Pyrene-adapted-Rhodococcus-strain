@@ -1,1 +1,13 @@
+## Identification of mutations in laboratory-evolved microbes from next-generation sequencing data using breseq
+
+conda install -c bioconda breseq -y
+
+## Run analysis 
+
+breseq -r WTc.fa adapted_R1.fastq.gz adapted_R2.fastq.gz -o breseq_output
+
+## Open results
+
+breseq_output/output/index.html
+
 
