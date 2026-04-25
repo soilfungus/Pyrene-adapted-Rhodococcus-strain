@@ -14,3 +14,8 @@ bwa mem WTc.fa adapted_R1.fastq.gz adapted_R2.fastq.gz > adapted.sam
 
 ##Convert SAM to BAM
 samtools view -Sb adapted.sam > adapted.bam
+
+## Now let's sort BAM
+samtools sort adapted.bam -o adapted.sorted.bam
+
+
