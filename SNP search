@@ -30,3 +30,11 @@ less adapted.vcf
 
 ## Count them
 grep -v "^#" adapted.vcf | wc -l
+
+## Number of SNPs increased comparing to assembled genome
+## Assemblies might not be subtle for SNP detection
+
+## Filter FASTQ-based SNPs
+bcftools filter -i 'QUAL>30 && DP>10 && MQ>30' adapted.vcf -o adapted.filtered.vcf
+
+
