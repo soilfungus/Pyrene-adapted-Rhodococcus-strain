@@ -1,7 +1,7 @@
 from Bio import SeqIO
 from Bio.SeqUtils import gc_fraction
 
-# ── Change this to your actual file name ──
+# Change this to your actual file name
 fasta_file = "ad.fasta"
 
 # Collect stats
