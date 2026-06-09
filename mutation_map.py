@@ -5,7 +5,6 @@ import matplotlib.patches as mpatches
 vcf_file = "biolearn_adapt2.vcf"
 genome_file = "ad.fasta"
 
-# Get genome length
 genome = next(SeqIO.parse(genome_file, "fasta"))
 genome_length = len(genome.seq)
 
