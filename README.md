@@ -38,5 +38,5 @@ Original experimental data are available in Mendeley Data at 10.17632/864zyxk8r7
 
 If you use these scripts, please cite:
 
-Calcáneo-Hernández et al., 2026
+Calcáneo-Hernández et al., (2026)
 Adaptive laboratory evolution of the hydrocarbonoclastic marine strain Rhodococcus ruber MSA14 to high pyrene concentrations
