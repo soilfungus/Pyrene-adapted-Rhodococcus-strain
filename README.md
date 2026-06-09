@@ -26,8 +26,10 @@ Bioinformatics scripts developed during the adaptive laboratory evolution of Rho
 
 ## Author
 
-Gabriela Hernández
+Gabriela Calcáneo-Hernández
+
 Postdoctoral researcher
+
 UNAM
 
 Original experimental data are available in Mendeley Data at 10.17632/864zyxk8r7.1
