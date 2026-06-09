@@ -34,6 +34,10 @@ UNAM
 
 Original experimental data are available in Mendeley Data at 10.17632/864zyxk8r7.1
 
+## Development Notes
+
+Some scripts were developed with the assistance of AI coding tools and subsequently reviewed, tested, and adapted by the author.
+
 ## Citation
 
 If you use these scripts, please cite:
