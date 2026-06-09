@@ -5,7 +5,6 @@ import os
 # Folder where all your FASTA files are
 fasta_folder = "."  # "." means current folder
 
-# Collect results
 results = []
 
 # Loop through every FASTA file in the folder
