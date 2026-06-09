@@ -1,2 +1,0 @@
-Learning Git from terminal
-
