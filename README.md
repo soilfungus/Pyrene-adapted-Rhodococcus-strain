@@ -3,6 +3,6 @@
 Scripts developed during comparative genomics analysis of an evolved
 Rhodococcus ruber strain.
 
-The original experimental data are not included.
-
 Example files are provided to demonstrate usage.
+
+The original experimental data are available in Mendeley Data at 10.17632/864zyxk8r7.1
