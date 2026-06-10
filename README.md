@@ -20,8 +20,6 @@ Bioinformatics scripts developed during the adaptive laboratory evolution of Rho
 
 - Python 3.10+
 - Biopython
-- pandas
-- matplotlib
 
 ## Author
 
