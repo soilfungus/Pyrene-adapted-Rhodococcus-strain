@@ -1,44 +1,127 @@
-# Parse a breseq VCF file into a clean readable table
+#!/usr/bin/env python3
 
-vcf_file = "biolearn_adapt2.vcf"
+"""
+VCF to Table Converter
 
-variants = []
+Purpose:
+    Parse a VCF file and generate a clean summary table of variants.
 
-with open(vcf_file, "r") as f:
-    for line in f:
-        # Skip header lines
-        if line.startswith("#"):
-            continue
-        
-        # Split each line into columns
-        cols = line.strip().split("\t")
-        if len(cols) < 8:
-            continue
-        
-        chrom    = cols[0]   # chromosome/contig
-        position = cols[1]   # position in genome
-        ref      = cols[3]   # reference base (WT)
-        alt      = cols[4]   # alternate base (mutant)
-        info     = cols[7]   # extra information
+Outputs:
+    - Position
+    - Reference allele
+    - Alternate allele
+    - Gene (if available)
+    - INFO field summary
 
-        # Try to extract gene name from INFO field
-        gene = "unknown"
-        for field in info.split(";"):
-            if field.startswith("gene=") or field.startswith("GENE="):
-                gene = field.split("=")[1]
+Usage:
+    python vcf_to_table.py variants.vcf
 
-        variants.append({
-            "Position": position,
-            "Ref": ref,
-            "Alt": alt,
-            "Gene": gene,
-            "Info": info[:60]  # truncate long info
-        })
+Dependencies:
+    None (standard Python only)
 
-# Print clean table
-print(f"{'Position':<12} {'Ref':<10} {'Alt':<10} {'Gene':<20} {'Info'}")
-print("-" * 90)
-for v in variants:
-    print(f"{v['Position']:<12} {v['Ref']:<10} {v['Alt']:<10} {v['Gene']:<20} {v['Info']}")
+Compatible with:
+    - breseq VCF files
+    - most standard VCF files
+"""
 
-print(f"\nTotal variants found: {len(variants)}")
+import argparse
+
+
+def extract_gene(info_field):
+    """Extract gene name from INFO field."""
+
+    for field in info_field.split(";"):
+        if field.startswith("gene="):
+            return field.split("=", 1)[1]
+
+        if field.startswith("GENE="):
+            return field.split("=", 1)[1]
+
+    return "unknown"
+
+
+def parse_vcf(vcf_file):
+    """Parse variants from a VCF file."""
+
+    variants = []
+
+    with open(vcf_file) as handle:
+        for line in handle:
+
+            if line.startswith("#"):
+                continue
+
+            columns = line.strip().split("\t")
+
+            if len(columns) < 8:
+                continue
+
+            chromosome = columns[0]
+            position = columns[1]
+            reference = columns[3]
+            alternate = columns[4]
+            info = columns[7]
+
+            variants.append({
+                "chromosome": chromosome,
+                "position": position,
+                "reference": reference,
+                "alternate": alternate,
+                "gene": extract_gene(info),
+                "info": info[:60]
+            })
+
+    return variants
+
+
+def print_table(variants):
+    """Print formatted variant table."""
+
+    print(
+        f"{'Chromosome':<20} "
+        f"{'Position':<12} "
+        f"{'Ref':<8} "
+        f"{'Alt':<8} "
+        f"{'Gene':<20} "
+        f"{'Info'}"
+    )
+
+    print("-" * 110)
+
+    for variant in variants:
+        print(
+            f"{variant['chromosome']:<20} "
+            f"{variant['position']:<12} "
+            f"{variant['reference']:<8} "
+            f"{variant['alternate']:<8} "
+            f"{variant['gene']:<20} "
+            f"{variant['info']}"
+        )
+
+    print(f"\nTotal variants found: {len(variants)}")
+
+
+def main():
+
+    parser = argparse.ArgumentParser(
+        description="Convert a VCF file into a readable variant summary table."
+    )
+
+    parser.add_argument(
+        "vcf",
+        help="Input VCF file"
+    )
+
+    args = parser.parse_args()
+
+    variants = parse_vcf(args.vcf)
+
+    if not variants:
+        print("No variants found.")
+        return
+
+    print_table(variants)
+
+
+if __name__ == "__main__":
+    main()
