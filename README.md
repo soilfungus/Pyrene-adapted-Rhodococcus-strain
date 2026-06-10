@@ -1,7 +1,5 @@
 # Pyrene-adapted Rhodococcus ruber strain
 
-Bioinformatics scripts developed during the adaptive laboratory evolution of Rhodococcus ruber under high pyrene concentrations.
-
 ## Features
 
 - Genome assembly statistics
