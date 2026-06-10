@@ -1,8 +1,25 @@
 # ============================================================
-# Growth curve plotting template
-# Purpose: Plot microbial growth curves from biological replicates
-# Input format: wide-format data frame with time + replicate columns
-# Output: mean ± SD growth curve
+# Growth Curve Plotting Template
+#
+# Purpose:
+# Plot microbial growth curves from biological replicate and visualize mean ± SD over time.
+#
+# Author:
+# Gabriela Calcáneo-Hernández
+#
+# Dependencies:
+# tidyverse
+# ggprism
+#
+# Citation:
+# Wickham H et al. (2019)
+# Welcome to the tidyverse.
+# Journal of Open Source Software 4(43):1686.
+# doi:10.21105/joss.01686
+#
+# Pomeroy B et al.
+# ggprism: A ggplot2 extension inspired by GraphPad Prism.
+#
 # ============================================================
 
 library(tidyverse)
