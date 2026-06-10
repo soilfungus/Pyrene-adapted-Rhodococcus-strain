@@ -1,92 +1,231 @@
+#!/usr/bin/env python3
+
+"""
+Mutation Map Generator
+
+Purpose:
+    Visualize mutations from a VCF file across a genome sequence.
+
+Features:
+    - SNP detection
+    - Insertion detection
+    - Deletion detection
+    - Genome-wide mutation map
+    - Mutation summary
+
+Usage:
+    python mutation_map.py genome.fasta variants.vcf
+
+Dependencies:
+    Biopython
+    matplotlib
+
+Example:
+    python mutation_map.py genome.fasta variants.vcf
+"""
+
+import argparse
 from Bio import SeqIO
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-vcf_file = "biolearn_adapt2.vcf"
-genome_file = "ad.fasta"
 
-genome = next(SeqIO.parse(genome_file, "fasta"))
-genome_length = len(genome.seq)
+def classify_variant(ref, alt):
+    """Classify variant type."""
 
-# Parse VCF
-positions = []
-types = []
-refs = []
-alts = []
+    if len(ref) > len(alt):
+        return "Deletion"
 
-with open(vcf_file, "r") as f:
-    for line in f:
-        if line.startswith("#"):
-            continue
-        cols = line.strip().split("\t")
-        if len(cols) < 8:
-            continue
+    if len(ref) < len(alt):
+        return "Insertion"
 
-        pos = int(cols[1])
-        ref = cols[3]
-        alt = cols[4]
+    return "SNP"
 
-        # Classify mutation type
-        if len(ref) > len(alt):
-            mut_type = "Deletion"
-        elif len(ref) < len(alt):
-            mut_type = "Insertion"
+
+def parse_vcf(vcf_file):
+    """Extract variant information from a VCF file."""
+
+    positions = []
+    variant_types = []
+    references = []
+    alternates = []
+
+    with open(vcf_file) as handle:
+
+        for line in handle:
+
+            if line.startswith("#"):
+                continue
+
+            columns = line.strip().split("\t")
+
+            if len(columns) < 8:
+                continue
+
+            position = int(columns[1])
+            reference = columns[3]
+            alternate = columns[4]
+
+            variant_type = classify_variant(reference, alternate)
+
+            positions.append(position)
+            variant_types.append(variant_type)
+            references.append(reference)
+            alternates.append(alternate)
+
+    return positions, variant_types, references, alternates
+
+
+def create_mutation_map(
+    genome_length,
+    positions,
+    variant_types,
+    references,
+    alternates,
+    output_file
+):
+    """Generate mutation map figure."""
+
+    color_map = {
+        "SNP": "steelblue",
+        "Insertion": "green",
+        "Deletion": "red"
+    }
+
+    fig, ax = plt.subplots(figsize=(14, 4))
+
+    ax.barh(
+        y=0,
+        width=genome_length,
+        height=0.1,
+        color="lightgrey",
+        edgecolor="black",
+        zorder=1
+    )
+
+    for pos, variant_type in zip(positions, variant_types):
+
+        ax.vlines(
+            pos,
+            -0.4,
+            0.4,
+            color=color_map[variant_type],
+            linewidth=2.5,
+            zorder=2
+        )
+
+    for pos, variant_type, ref, alt in zip(
+        positions,
+        variant_types,
+        references,
+        alternates
+    ):
+
+        if variant_type == "Deletion":
+            label = f"DEL\n{pos:,}"
+
+        elif variant_type == "Insertion":
+            label = f"INS\n{pos:,}"
+
         else:
-            mut_type = "SNP"
+            label = f"{ref}>{alt}\n{pos:,}"
 
-        positions.append(pos)
-        types.append(mut_type)
-        refs.append(ref)
-        alts.append(alt)
+        ax.text(
+            pos,
+            0.55,
+            label,
+            fontsize=6,
+            ha="center"
+        )
 
-# Assign colors
-color_map = {"SNP": "steelblue", "Insertion": "green", "Deletion": "red"}
-colors = [color_map[t] for t in types]
+    legend_patches = [
+        mpatches.Patch(
+            color="steelblue",
+            label=f"SNP ({variant_types.count('SNP')})"
+        ),
+        mpatches.Patch(
+            color="green",
+            label=f"Insertion ({variant_types.count('Insertion')})"
+        ),
+        mpatches.Patch(
+            color="red",
+            label=f"Deletion ({variant_types.count('Deletion')})"
+        )
+    ]
 
-# Plot
-fig, ax = plt.subplots(figsize=(14, 4))
+    ax.legend(
+        handles=legend_patches,
+        loc="lower right"
+    )
 
-# Draw genome as a grey bar
-ax.barh(0, genome_length, height=0.1, color="lightgrey", edgecolor="black", zorder=1)
+    ax.set_xlim(0, genome_length)
+    ax.set_ylim(-1, 1.5)
 
-# Draw each mutation as a vertical line
-for pos, color, mut_type, ref, alt in zip(positions, colors, types, refs, alts):
-    ax.vlines(pos, -0.4, 0.4, color=color, linewidth=2.5, zorder=2)
+    ax.set_xlabel("Genome Position (bp)")
 
-# Annotate each mutation
-for pos, mut_type, ref, alt in zip(positions, types, refs, alts):
-    if mut_type == "Deletion":
-        label = f"DEL\n{pos:,}"
-    elif mut_type == "Insertion":
-        label = f"INS\n{pos:,}"
-    else:
-        label = f"{ref}→{alt}\n{pos:,}"
-    ax.text(pos, 0.55, label, fontsize=6.5, ha="center", va="bottom", rotation=0)
+    ax.set_title(
+        f"Genome Mutation Map\n"
+        f"{genome_length:,} bp | "
+        f"{len(positions)} variants"
+    )
 
-# Legend
-legend_patches = [
-    mpatches.Patch(color="steelblue", label=f"SNP ({types.count('SNP')})"),
-    mpatches.Patch(color="green",     label=f"Insertion ({types.count('Insertion')})"),
-    mpatches.Patch(color="red",       label=f"Deletion ({types.count('Deletion')})")
-]
-ax.legend(handles=legend_patches, loc="lower right", fontsize=9)
+    ax.set_yticks([])
 
-# Formatting
-ax.set_xlim(0, genome_length)
-ax.set_ylim(-1, 1.5)
-ax.set_xlabel("Genome Position (bp)", fontsize=11)
-ax.set_title(f"Mutation Map — AD vs WT\n{genome_length:,} bp genome  |  {len(positions)} total variants", fontsize=12)
-ax.set_yticks([])
-ax.spines["top"].set_visible(False)
-ax.spines["right"].set_visible(False)
-ax.spines["left"].set_visible(False)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_visible(False)
 
-plt.tight_layout()
-plt.savefig("mutation_map.png", dpi=150)
-plt.show()
+    plt.tight_layout()
+    plt.savefig(output_file, dpi=300)
 
-print(f"Plot saved as mutation_map.png")
-print(f"\nSummary:")
-print(f"  SNPs:       {types.count('SNP')}")
-print(f"  Insertions: {types.count('Insertion')}")
-print(f"  Deletions:  {types.count('Deletion')}")
+    print(f"Figure saved: {output_file}")
+
+
+def main():
+
+    parser = argparse.ArgumentParser(
+        description="Generate a genome-wide mutation map from a VCF file."
+    )
+
+    parser.add_argument(
+        "genome",
+        help="Reference genome FASTA file"
+    )
+
+    parser.add_argument(
+        "vcf",
+        help="VCF file"
+    )
+
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="mutation_map.png",
+        help="Output figure name"
+    )
+
+    args = parser.parse_args()
+
+    genome = next(SeqIO.parse(args.genome, "fasta"))
+    genome_length = len(genome.seq)
+
+    positions, variant_types, references, alternates = parse_vcf(args.vcf)
+
+    create_mutation_map(
+        genome_length,
+        positions,
+        variant_types,
+        references,
+        alternates,
+        args.output
+    )
+
+    print("\nSummary")
+    print("-" * 20)
+    print(f"SNPs:       {variant_types.count('SNP')}")
+    print(f"Insertions: {variant_types.count('Insertion')}")
+    print(f"Deletions:  {variant_types.count('Deletion')}")
+
+
+if __name__ == "__main__":
+    main()
