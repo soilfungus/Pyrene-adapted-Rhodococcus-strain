@@ -5,7 +5,8 @@
 # Gabriela Calcáneo-Hernández
 #
 # Purpose:
-# Plot microbial growth curves from biological replicate and visualize mean ± SD over time.
+# Plot microbial growth curves from biological replicate 
+# and visualize mean ± SD over time.
 #
 # Dependencies:
 # tidyverse
