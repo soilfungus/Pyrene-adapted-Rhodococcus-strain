@@ -5,7 +5,8 @@
 # Gabriela Calcáneo-Hernández
 #
 # Purpose:
-# Compare two experimental groups across multiple time points using mean ± SD and Student's t-tests.
+# Compare two experimental groups across multiple time points 
+# using mean ± SD and Student's t-tests.
 # 
 # Dependencies:
 # tidyverse
