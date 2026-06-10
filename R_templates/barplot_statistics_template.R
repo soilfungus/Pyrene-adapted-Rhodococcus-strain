@@ -5,7 +5,8 @@
 # Gabriela Calcáneo-Hernández
 #
 # Purpose:
-# Plot biological replicate data as mean ± SD bars, show individual data points, and perform a t-test.
+# Plot biological replicate data as mean ± SD bars, 
+# show individual data points, and perform a t-test.
 #
 # Dependencies:
 # tidyverse
