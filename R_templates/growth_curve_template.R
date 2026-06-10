@@ -26,9 +26,10 @@ library(tidyverse)
 library(ggprism)
 
 # ---- Example data ----
-# Replace these example OD values with your own data.
-# Keep the structure:
+# Replace OD values with your own data
+#
 # time = sampling time
+# Strains w 3 replicates
 # StrainA_rep1, StrainA_rep2, StrainA_rep3
 # StrainB_rep1, StrainB_rep2, StrainB_rep3
 
