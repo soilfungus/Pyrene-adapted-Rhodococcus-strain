@@ -1,11 +1,11 @@
 # ============================================================
 # Growth Curve Plotting Template
 #
-# Purpose:
-# Plot microbial growth curves from biological replicate and visualize mean ± SD over time.
-#
 # Author:
 # Gabriela Calcáneo-Hernández
+#
+# Purpose:
+# Plot microbial growth curves from biological replicate and visualize mean ± SD over time.
 #
 # Dependencies:
 # tidyverse
