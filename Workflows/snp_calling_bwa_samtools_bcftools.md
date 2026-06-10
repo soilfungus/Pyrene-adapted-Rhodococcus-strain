@@ -1,5 +1,9 @@
 # SNP Calling Workflow with BWA, SAMtools, and BCFtools
 
+## Author
+
+Gabriela Calcáneo-Hernández
+
 ## Purpose
 
 Map paired-end sequencing reads to a reference genome and call sequence variants using BWA, SAMtools, and BCFtools.
