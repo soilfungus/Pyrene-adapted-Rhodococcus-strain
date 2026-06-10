@@ -1,5 +1,9 @@
 # breseq Variant Calling Workflow
 
+## Author
+
+Gabriela Calcáneo-Hernández
+
 ## Purpose
 
 Identify mutations in laboratory-evolved microbial strains using next-generation sequencing reads and a reference genome.
