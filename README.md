@@ -11,7 +11,6 @@ Bioinformatics scripts developed during the adaptive laboratory evolution of Rho
 
 ## Example Workflow
 
-```text
 Hybrid genome assembly
         ↓
 Variant calling with breseq
@@ -26,6 +25,7 @@ Biological interpretation
 
 - Python 3.10+
 - Biopython
+- R
 
 ## Author
 
