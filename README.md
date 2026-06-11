@@ -11,6 +11,7 @@ Bioinformatics scripts developed during the adaptive laboratory evolution of Rho
 
 ## Example Workflow
 
+```text
 Hybrid genome assembly
         ↓
 Variant calling with breseq
@@ -20,6 +21,7 @@ VCF parsing
 Mutation map generation
         ↓
 Biological interpretation
+```
 
 ## Requirements
 
