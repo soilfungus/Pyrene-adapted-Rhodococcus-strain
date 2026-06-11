@@ -14,11 +14,11 @@ Bioinformatics scripts developed during the adaptive laboratory evolution of Rho
 ```text
 Hybrid genome assembly
         ↓
-Variant calling with breseq
+Annotation
         ↓
-VCF parsing
+Genome comparison
         ↓
-Mutation map generation
+Variant detection
         ↓
 Biological interpretation
 ```
