@@ -9,12 +9,18 @@ Bioinformatics scripts developed during the adaptive laboratory evolution of Rho
 - Mutation mapping
 - Comparative genome analysis
 
-## Example workflow
+## Example Workflow
 
-1. Assemble genome
-2. Run breseq
-3. Parse VCF
-4. Generate mutation map
+```text
+Hybrid genome assembly
+        ↓
+Variant calling with breseq
+        ↓
+VCF parsing
+        ↓
+Mutation map generation
+        ↓
+Biological interpretation
 
 ## Requirements
 
